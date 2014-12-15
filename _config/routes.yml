@@ -1,0 +1,7 @@
+---
+Name: searchableroutes
+After: framework/routes#rootroutes
+---
+Director:
+  rules:
+    'results//$Action/$ID': 'SearchResults'

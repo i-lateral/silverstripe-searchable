@@ -1,0 +1,6 @@
+---
+Name: searchableconfig
+---
+Controller:
+  extensions:
+    - SearchableControllerExtension
