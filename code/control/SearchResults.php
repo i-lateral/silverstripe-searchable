@@ -105,6 +105,7 @@ class SearchResults extends Controller {
             if($results->exists()) {
                 $objects_list->add(ArrayData::create(array(
                     "Title" => $object["Title"],
+                    "ClassName" => $object["ClassName"],
                     "Results" => $results,
                     "Link" => Controller::join_links(
                         $this->config()->url_segment,

@@ -9,7 +9,7 @@
         <% loop $Objects %>
             <h2>$Title</h2>
             
-            <div class="search-results-list">
+            <div class="search-results-list {$ClassName}">
                 <% loop $Results %>
                     <div class="search-results-item">
                         <h2><a href="$Link">$Title</a></h2>
