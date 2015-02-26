@@ -1,9 +1,5 @@
 <div class="search-results">
-    <h1><%t Searchable.SearchResults "Search Results" %></h1>
-
-    <% if $Query %>
-        <p class="search-query"><%t Searchable.YouSearchedFor "You searched for" %> &quot;{$Query}&quot;</p>
-    <% end_if %>
+    <h1><%t Searchable.SearchResultsFor "Search Results for '{query}'" query=$Query %></h1>
 
     <% if $Results %>
         <div class="search-results-list">

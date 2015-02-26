@@ -127,6 +127,12 @@ class SearchResults extends Controller {
         }
         
         $this->customise(array(
+            "MetaTitle" => _t(
+                "Searchable.TopSearchResults",
+                "Top Search Results for '{query}'",
+                'This is the title used for viewing the top results of a search for each object',
+                array('query' => $this->getQuery())
+            ),
             "Objects" => $objects_list
         ));
      
@@ -149,6 +155,12 @@ class SearchResults extends Controller {
         $keywords = $this->getQuery();
         
         $this->customise(array(
+            "MetaTitle" => _t(
+                'Searchable.SearchResultsFor',
+                "Search Results for '{query}'",
+                'This is the title used for viewing the results of a search',
+                array('query' => $this->getQuery())
+            ),
             "Results" => PaginatedList::create(
                 $this->Results($classname, $cols, $keywords),
                 $this->request

@@ -1,0 +1,10 @@
+en:
+  Searchable:
+    Go: Go
+    NoResults: 'Sorry, your search did not return any results.'
+    ReadMore: 'Read More'
+    Search: Search
+    SearchResultsFor: 'Search Results for ''{query}'''
+    TopSearchExplination: 'Below are the top results for your search, click ''View all results'' to see more results of that type.'
+    TopSearchResults: 'Top Search Results for ''{query}'''
+    ViewAll: 'View all results'
