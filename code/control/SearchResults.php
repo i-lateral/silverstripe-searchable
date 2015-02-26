@@ -143,7 +143,7 @@ class SearchResults extends Controller {
             "Results" => PaginatedList::create(
                 $this->Results($classname, $cols, $keywords),
                 $this->request
-            )
+            )->setPageLength(Searchable::config()->page_length)
         ));
         
         $this->extend("onBeforeObject");
