@@ -25,7 +25,19 @@ This will then add the object to Searchable's searchable classes.
 
 For example, you can add SiteTree using the following:
 
-    Searchable::add("SiteTree", array("Title","MenuTitle","Content","URLSegment"), "Pages"); 
+    Searchable::add("SiteTree", array("Title","MenuTitle","Content","URLSegment"), "Pages");
+    
+### Extended Dataobjects
+
+At the moment Searchable generates errors if you want to try and search
+an object that extends another object using the fields of it's parent.
+
+For example, the below will generate an error:
+
+    Searchable::add("Page", array("Title","MenuTitle"), "Pages");
+    
+You will have to search SiteTree (as it contains the fields Title and
+Menutitle).
 
 ## Results Dashboard
 
@@ -66,3 +78,15 @@ example:
     
 The above would be used to display only search results for a product
 object.
+
+### Overwrite the default page length
+
+You can change the default page length of search results by using
+configuration:
+
+    Searchable::config()->page_lenth = 20;
+    
+Or, in config.yml
+
+    Searchable:
+      page_lenth: 20

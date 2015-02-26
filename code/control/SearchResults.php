@@ -22,6 +22,9 @@ class SearchResults extends Controller {
     /**
 	 * Return DataList of the results using $_REQUEST to get search info
 	 * Wraps around {@link searchEngine()}.
+     * 
+     * Results also checks to see if there is a custom filter set in
+     * configuration and adds it.
 	 * 
      * @param $classname Name of the object we will be filtering
      * @param $columns an array of the column names we will be sorting
@@ -31,6 +34,7 @@ class SearchResults extends Controller {
 	 */
 	protected function Results($classname, $columns, $keywords, $limit = 0) {
         $cols_string = implode('","', $columns);
+        $custom_filters = Searchable::config()->custom_filters;
 
 	 	$andProcessor = create_function('$matches','
 	 		return " +" . $matches[2] . " +" . $matches[4] . " ";
@@ -46,9 +50,14 @@ class SearchResults extends Controller {
 		$keywords = preg_replace_callback('/(^| )(not )([^() ]+)( |$)/i', $notProcessor, $keywords);
 		
 		$keywords = $this->addStarsToKeywords($keywords);
+        $filter = array($cols_string . ':FullText' => $keywords);
+        
+        if(is_array($custom_filters) && array_key_exists($classname, $custom_filters) && is_array($custom_filters[$classname])) {
+            $filter = array_merge($filter, $custom_filters[$classname]);
+        }
         
         $results = $classname::get()
-            ->filter($cols_string . ':FullText', $keywords);
+            ->filter($filter);
         
         if($limit) $results = $results->limit($limit);
         

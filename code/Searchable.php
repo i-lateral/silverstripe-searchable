@@ -33,6 +33,26 @@ class Searchable extends ViewableData {
     private static $dashboard_items = 5;
     
     /**
+     * Specify a list of custom filters that can be associated against
+     * an object we are searching.
+     * 
+     * For example if we are searching a "Product" object and want to
+     * only show objects that have Disabled set to 0, we would add the
+     * following to our _config.php
+     * 
+     * Searchable::config()->custom_filters = array(
+     *     "Product" => array(
+     *         "Disabled" => 0
+     *     )
+     * );
+     * 
+     * 
+     * @var Array
+     * @config
+     */
+    private static $custom_filters = array();
+    
+    /**
      * Add an object to the Searchable module, this object will
      * automatically be added to the results page dashboard 
      * 
