@@ -58,7 +58,7 @@ class Searchable extends ViewableData {
      * 
      * @param $classname Classname of the object we want to search
      * @param $columns An array of database column names we will search
-     * @param $title The title of this object (that will appear in the dashboard) 
+     * @param $title The title of this object (that will appear in the dashboard)
      * 
      */
     static function add($classname, $columns = array(), $title) {
@@ -69,8 +69,5 @@ class Searchable extends ViewableData {
         );
         
         $cols_string = '"' . implode('","', $columns) . '"';
-        
-        Config::inst()->update($classname, 'create_table_options', array('MySQLDatabase' => 'ENGINE=MyISAM'));
-        $classname::add_extension("SearchableDataObject('{$cols_string}')");
     }
 } 
