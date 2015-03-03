@@ -2,7 +2,6 @@
 
 class SearchResults extends Controller {
     
-    
     /**
      * Designate the URL segment of this controller, used when
      * generating links to this controller.
@@ -32,32 +31,22 @@ class SearchResults extends Controller {
      * 
 	 * @return SS_List
 	 */
-	protected function Results($classname, $columns, $keywords, $limit = 0) {
+     protected function Results($classname, $columns, $keywords, $limit = 0) {
         $cols_string = implode('","', $columns);
         $custom_filters = Searchable::config()->custom_filters;
-
-	 	$andProcessor = create_function('$matches','
-	 		return " +" . $matches[2] . " +" . $matches[4] . " ";
-	 	');
         
-	 	$notProcessor = create_function('$matches', '
-	 		return " -" . $matches[3];
-	 	');
-
-	 	$keywords = preg_replace_callback('/()("[^()"]+")( and )("[^"()]+")()/i', $andProcessor, $keywords);
-	 	$keywords = preg_replace_callback('/(^| )([^() ]+)( and )([^ ()]+)( |$)/i', $andProcessor, $keywords);
-		$keywords = preg_replace_callback('/(^| )(not )("[^"()]+")/i', $notProcessor, $keywords);
-		$keywords = preg_replace_callback('/(^| )(not )([^() ]+)( |$)/i', $notProcessor, $keywords);
-		
-		$keywords = $this->addStarsToKeywords($keywords);
-        $filter = array($cols_string . ':FullText' => $keywords);
+        $filter = array();
         
-        if(is_array($custom_filters) && array_key_exists($classname, $custom_filters) && is_array($custom_filters[$classname])) {
-            $filter = array_merge($filter, $custom_filters[$classname]);
+        foreach($columns as $col) {
+            $filter["{$col}:PartialMatch"] = $keywords;
         }
         
         $results = $classname::get()
-            ->filter($filter);
+            ->filterAny($filter);
+        
+        if(is_array($custom_filters) && array_key_exists($classname, $custom_filters) && is_array($custom_filters[$classname])) {
+            $results = $results->filter($custom_filters[$classname]);
+        }
         
         if($limit) $results = $results->limit($limit);
         
@@ -67,26 +56,6 @@ class SearchResults extends Controller {
 		}
 
 		return $results;
-	}
-
-	protected function addStarsToKeywords($keywords) {
-		if(!trim($keywords)) return "";
-        
-		// Add * to each keyword
-		$splitWords = preg_split("/ +/" , trim($keywords));
-		while(list($i,$word) = each($splitWords)) {
-			if($word[0] == '"') {
-				while(list($i,$subword) = each($splitWords)) {
-					$word .= ' ' . $subword;
-					if(substr($subword,-1) == '"') break;
-				}
-			} else {
-				$word .= '*';
-			}
-			$newWords[] = $word;
-		}
-        
-		return implode(" ", $newWords);
 	}
     
     public function getQuery() {
