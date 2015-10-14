@@ -14,7 +14,6 @@ class Searchable extends ViewableData {
         return self::$objects;
     }
     
-    
     /**
      * Specify how many items should appear per page of results.
      * 
@@ -78,4 +77,44 @@ class Searchable extends ViewableData {
         
         $cols_string = '"' . implode('","', $columns) . '"';
     }
+    
+    /**
+	 * Return DataList of the results using $_REQUEST to get search info
+	 * Wraps around {@link searchEngine()}.
+     * 
+     * Results also checks to see if there is a custom filter set in
+     * configuration and adds it.
+	 * 
+     * @param $classname Name of the object we will be filtering
+     * @param $columns an array of the column names we will be sorting
+     * @param $query the current search query
+     * 
+	 * @return SS_List
+	 */
+     static function Results($classname, $columns, $keywords, $limit = 0) {
+        $cols_string = implode('","', $columns);
+        $custom_filters = Searchable::config()->custom_filters;
+        
+        $filter = array();
+        
+        foreach($columns as $col) {
+            $filter["{$col}:PartialMatch"] = $keywords;
+        }
+        
+        $results = $classname::get()
+            ->filterAny($filter);
+        
+        if(is_array($custom_filters) && array_key_exists($classname, $custom_filters) && is_array($custom_filters[$classname])) {
+            $results = $results->filter($custom_filters[$classname]);
+        }
+        
+        if($limit) $results = $results->limit($limit);
+        
+		foreach($results as $result) {
+			if(!$result->canView() || (isset($result->ShowInSearch) && !$result->ShowInSearch))
+                $results->remove($result);
+		}
+
+		return $results;
+	}
 } 
