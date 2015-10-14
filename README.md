@@ -90,3 +90,17 @@ Or, in config.yml
 
     Searchable:
       page_lenth: 20
+
+## Custom results controller
+
+It's possible to change the default controller used by searchabe to
+display results. You can do this by changing the template class
+configuration variable:
+	
+    Searchable::config()->template_class = 'your_custom_controller';
+    
+Or, in config.yml
+
+    Searchable:
+      template_class: 'your_custom_controller'
+	
