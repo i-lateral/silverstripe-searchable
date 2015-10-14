@@ -62,6 +62,20 @@ class SearchResults extends Controller {
         return $this->request->getVar('Search');
     }
     
+    public function Link($action = null) {
+		return Controller::join_links(
+			$this->config()->url_segment,
+			$action
+		);
+	}
+	
+    public function AbsoluteLink($action = null) {
+		return Controller::join_links(
+			Director::absoluteBaseURL(),
+			$this->Link($action)
+		);
+	}
+	
     public function index() {
         $keywords = $this->getQuery();
         $limit = Searchable::config()->dashboard_items;

@@ -31,12 +31,12 @@ class SearchableControllerExtension extends Extension {
                 FormAction::create('results', _t('Searchable.Go', 'Go'))
             );
             
+            $template_class = Searchable::config()->template_class;
+            $results_page = new $template_class;
+            
             $form = Form::create($this->owner, 'SearchForm', $fields, $actions)
                 ->setFormMethod('get')
-                ->setFormAction(Controller::join_links(
-                    BASE_URL,
-                    SearchResults::config()->url_segment
-                ))
+                ->setFormAction($results_page->Link())
                 ->disableSecurityToken();
                 
             $this->owner->extend("updateSearchForm", $form);

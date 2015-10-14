@@ -53,6 +53,14 @@ class Searchable extends ViewableData {
     private static $custom_filters = array();
     
     /**
+     * 
+     * 
+     * @var Text
+     * @config
+     */
+    private static $template_class = 'SearchResults';
+    
+    /**
      * Add an object to the Searchable module, this object will
      * automatically be added to the results page dashboard 
      * 
