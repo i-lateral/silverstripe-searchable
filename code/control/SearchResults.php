@@ -1,6 +1,7 @@
 <?php
 
-class SearchResults extends Controller {
+class SearchResults extends Controller
+{
     
     /**
      * Designate the URL segment of this controller, used when
@@ -14,35 +15,39 @@ class SearchResults extends Controller {
     /**
      * @config
      */
-    static $allowed_actions = array(
+    public static $allowed_actions = array(
         "object"
     );
     
-    public function getQuery() {
+    public function getQuery()
+    {
         return $this->request->getVar('Search');
     }
     
-    public function Link($action = null) {
-		return Controller::join_links(
-			$this->config()->url_segment,
-			$action
-		);
-	}
-	
-    public function AbsoluteLink($action = null) {
-		return Controller::join_links(
-			Director::absoluteBaseURL(),
-			$this->Link($action)
-		);
-	}
-	
-    public function index() {
+    public function Link($action = null)
+    {
+        return Controller::join_links(
+            $this->config()->url_segment,
+            $action
+        );
+    }
+    
+    public function AbsoluteLink($action = null)
+    {
+        return Controller::join_links(
+            Director::absoluteBaseURL(),
+            $this->Link($action)
+        );
+    }
+    
+    public function index()
+    {
         $keywords = $this->getQuery();
         $limit = Searchable::config()->dashboard_items;
         $classes_to_search = Searchable::getObjects();
         $objects_list = ArrayList::create();
         
-        if(count($classes_to_search) == 1) {
+        if (count($classes_to_search) == 1) {
             return $this->redirect(Controller::join_links(
                 self::config()->url_segment,
                 "object",
@@ -51,10 +56,10 @@ class SearchResults extends Controller {
             ));
         }
         
-        foreach($classes_to_search as $object) {
+        foreach ($classes_to_search as $object) {
             $results = Searchable::Results($object["ClassName"], $object["Columns"], $keywords, $limit);
             
-            if($results->exists()) {
+            if ($results->exists()) {
                 $objects_list->add(ArrayData::create(array(
                     "Title" => $object["Title"],
                     "ClassName" => $object["ClassName"],
@@ -87,12 +92,15 @@ class SearchResults extends Controller {
         ));
     }
     
-    public function object() {
+    public function object()
+    {
         $classname = $this->request->param("ID");
         $classes_to_search = Searchable::getObjects();
         
-        foreach($classes_to_search as $object) {
-            if($object["ClassName"] == $classname) $cols = $object["Columns"];
+        foreach ($classes_to_search as $object) {
+            if ($object["ClassName"] == $classname) {
+                $cols = $object["Columns"];
+            }
         }
         
         $keywords = $this->getQuery();
