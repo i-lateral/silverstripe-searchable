@@ -1,6 +1,7 @@
 <?php
 
-class Searchable extends ViewableData {
+class Searchable extends ViewableData
+{
     
     /**
      * Cache of objects added via Searchable::add. This is used to
@@ -10,7 +11,8 @@ class Searchable extends ViewableData {
      */
     private static $objects = array();
     
-    public static function getObjects() {
+    public static function getObjects()
+    {
         return self::$objects;
     }
     
@@ -68,7 +70,8 @@ class Searchable extends ViewableData {
      * @param $title The title of this object (that will appear in the dashboard)
      * 
      */
-    static function add($classname, $columns = array(), $title) {
+    public static function add($classname, $columns = array(), $title)
+    {
         self::$objects[] = array(
             "ClassName" => $classname,
             "Columns" => $columns,
@@ -79,42 +82,46 @@ class Searchable extends ViewableData {
     }
     
     /**
-	 * Return DataList of the results using $_REQUEST to get search info
-	 * Wraps around {@link searchEngine()}.
+     * Return DataList of the results using $_REQUEST to get search info
+     * Wraps around {@link searchEngine()}.
      * 
      * Results also checks to see if there is a custom filter set in
      * configuration and adds it.
-	 * 
+     * 
      * @param $classname Name of the object we will be filtering
      * @param $columns an array of the column names we will be sorting
      * @param $query the current search query
      * 
-	 * @return SS_List
-	 */
-     static function Results($classname, $columns, $keywords, $limit = 0) {
-        $cols_string = implode('","', $columns);
-        $custom_filters = Searchable::config()->custom_filters;
+     * @return SS_List
+     */
+     public static function Results($classname, $columns, $keywords, $limit = 0)
+     {
+         $cols_string = implode('","', $columns);
+         $custom_filters = Searchable::config()->custom_filters;
         
-        $filter = array();
+         $filter = array();
         
-        foreach($columns as $col) {
-            $filter["{$col}:PartialMatch"] = $keywords;
-        }
+         foreach ($columns as $col) {
+             $filter["{$col}:PartialMatch"] = $keywords;
+         }
         
-        $results = $classname::get()
+         $results = $classname::get()
             ->filterAny($filter);
         
-        if(is_array($custom_filters) && array_key_exists($classname, $custom_filters) && is_array($custom_filters[$classname])) {
-            $results = $results->filter($custom_filters[$classname]);
-        }
+         if (is_array($custom_filters) && array_key_exists($classname, $custom_filters) && is_array($custom_filters[$classname])) {
+             $results = $results->filter($custom_filters[$classname]);
+         }
         
-        if($limit) $results = $results->limit($limit);
+         if ($limit) {
+             $results = $results->limit($limit);
+         }
         
-		foreach($results as $result) {
-			if(!$result->canView() || (isset($result->ShowInSearch) && !$result->ShowInSearch))
-                $results->remove($result);
-		}
+         foreach ($results as $result) {
+             if (!$result->canView() || (isset($result->ShowInSearch) && !$result->ShowInSearch)) {
+                 $results->remove($result);
+             }
+         }
 
-		return $results;
-	}
-} 
+         return $results;
+     }
+}

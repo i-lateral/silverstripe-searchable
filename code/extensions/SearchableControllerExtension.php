@@ -1,6 +1,7 @@
 <?php
 
-class SearchableControllerExtension extends Extension {
+class SearchableControllerExtension extends Extension
+{
     
     private static $allowed_actions = array(
         "SearchForm",
@@ -8,17 +9,18 @@ class SearchableControllerExtension extends Extension {
     );
     
     /**
-	 * Add a site search form to all controllers that links to the
+     * Add a site search form to all controllers that links to the
      * results controller.
      * 
      * @return Form
-	 */
-	public function SearchForm() {
+     */
+    public function SearchForm()
+    {
         // If we have setup objects to search
-        if(count(Searchable::getObjects())) {
+        if (count(Searchable::getObjects())) {
             $searchText =  "";
 
-            if($this->owner->request && $this->owner->request->getVar('Search')) {
+            if ($this->owner->request && $this->owner->request->getVar('Search')) {
                 $searchText = $this->owner->request->getVar('Search');
             }
 
@@ -43,6 +45,5 @@ class SearchableControllerExtension extends Extension {
             
             return $form;
         }
-	}
-    
+    }
 }
