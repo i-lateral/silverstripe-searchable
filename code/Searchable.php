@@ -118,7 +118,7 @@ class Searchable extends ViewableData
         
          foreach ($results as $result) {
              if (!$result->canView() || (isset($result->ShowInSearch) && !$result->ShowInSearch)) {
-                 $results->removeByID($result->ID);
+                 $results = $results->substract($result);
              }
          }
 
