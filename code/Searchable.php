@@ -111,6 +111,12 @@ class Searchable extends ViewableData
          if (is_array($custom_filters) && array_key_exists($classname, $custom_filters) && is_array($custom_filters[$classname])) {
              $results = $results->filter($custom_filters[$classname]);
          }
+
+         $searchable = new Searchable();
+
+         if ($searchable->hasMethod('filterResultsByCallback')) {
+             $results = $searchable->filterResultsByCallback($results, $classname);
+         }
         
          if ($limit) {
              $results = $results->limit($limit);
