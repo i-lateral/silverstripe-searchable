@@ -96,32 +96,33 @@ class Searchable extends ViewableData
      */
      public static function Results($classname, $columns, $keywords, $limit = 0)
      {
-         $cols_string = implode('","', $columns);
-         $custom_filters = Searchable::config()->custom_filters;
-        
-         $filter = array();
-        
-         foreach ($columns as $col) {
-             $filter["{$col}:PartialMatch"] = $keywords;
-         }
-        
-         $results = $classname::get()
-            ->filterAny($filter);
-        
-         if (is_array($custom_filters) && array_key_exists($classname, $custom_filters) && is_array($custom_filters[$classname])) {
-             $results = $results->filter($custom_filters[$classname]);
-         }
-        
-         if ($limit) {
-             $results = $results->limit($limit);
-         }
-        
-         foreach ($results as $result) {
-             if (!$result->canView() || (isset($result->ShowInSearch) && !$result->ShowInSearch)) {
-                 $results->remove($result);
-             }
-         }
+        $cols_string = implode('","', $columns);
+        $custom_filters = Searchable::config()->custom_filters;
+        $results = ArrayList::create();
 
-         return $results;
+        $filter = array();
+
+        foreach ($columns as $col) {
+            $filter["{$col}:PartialMatch"] = $keywords;
+        }
+
+        $search = $classname::get()
+            ->filterAny($filter);
+
+        if (is_array($custom_filters) && array_key_exists($classname, $custom_filters) && is_array($custom_filters[$classname])) {
+            $search = $search->filter($custom_filters[$classname]);
+        }
+
+        if ($limit) {
+            $search = $search->limit($limit);
+        }
+
+        foreach ($search as $result) {
+            if ($result->canView() || (isset($result->ShowInSearch) && $result->ShowInSearch)) {
+                $results->add($result);
+            }
+        }
+
+        return $results;
      }
 }
