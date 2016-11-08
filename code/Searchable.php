@@ -113,6 +113,12 @@ class Searchable extends ViewableData
             $search = $search->filter($custom_filters[$classname]);
         }
 
+        $searchable = new Searchable();
+
+        if ($searchable->hasMethod('filterResultsByCallback')) {
+            $search = $searchable->filterResultsByCallback($search, $classname);
+        }
+
         if ($limit) {
             $search = $search->limit($limit);
         }
