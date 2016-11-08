@@ -6,14 +6,14 @@
             <% loop $Results %>
                 <% include SearchResultsSummary %>
             <% end_loop %>
-            
+
             <% with $Results %>
                 <% if $MoreThanOnePage %>
                     <ul class="pagination">
                         <% if $NotFirstPage %>
                             <li><a class="prev" href="{$PrevLink}">&larr;</a></li>
                         <% end_if %>
-                    
+
                         <% loop $Pages %>
                             <% if $CurrentBool %>
                                 <li><span>$PageNum</span></li>
@@ -25,7 +25,7 @@
                                 <% end_if %>
                             <% end_if %>
                         <% end_loop %>
-                            
+
                         <% if $NotLastPage %>
                             <li><a class="next" href="{$NextLink}">&rarr;</a></li>
                         <% end_if %>
