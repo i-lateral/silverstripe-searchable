@@ -26,6 +26,19 @@ This will then add the object to Searchable's searchable classes.
 For example, you can add SiteTree using the following:
 
     Searchable::add("SiteTree", array("Title","MenuTitle","Content","URLSegment"), "Pages");
+
+**NOTE** Searchable will check an object's canView method before adding it to
+the list of results. If this returns true (the Silverstripe default for users not
+logged in) then the object will not appear.
+
+If you do not require custom view permissions, then the simplest thing to do is add
+the following function to your dataobject:
+
+    function canView($member = null)
+    {
+        return true;
+    }
+
     
 ### Extended Dataobjects
 
