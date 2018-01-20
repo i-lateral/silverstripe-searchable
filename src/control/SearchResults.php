@@ -30,7 +30,7 @@ class SearchResults extends Controller
     /**
      * @config
      */
-    public static $allowed_actions = [
+    private static $allowed_actions = [
         "object"
     ];
 
@@ -178,7 +178,7 @@ class SearchResults extends Controller
 
         // Add the current object classname to the start of the
         // templates array before render
-        $tempaltes = $this->templates["object"];
+        $templates = $this->templates["object"];
         array_unshift(
             $templates,
             SearchResults::class . "_{$classname}"

@@ -5,7 +5,7 @@ aware of it. Do this by using the `objects` config variable:
 
 For example, in config.yml
 
-    Searchable:
+    ilateral\SilverStripe\Searchable\Searchable:
       objects:
         "Page": ["Title","MenuTitle","Content","URLSegment"]
 
@@ -34,7 +34,7 @@ For example if we are searching a "Product" object and want to only
 show objects that have Disabled set to 0, we would add the following
 to our config.yml
 
-    Searchable:
+    ilateral\SilverStripe\Searchable\Searchable:
       custom_filters:
         Product:
           "Disabled": 0
@@ -48,7 +48,7 @@ configuration:
 
 For example, in config.yml
 
-    Searchable:
+    ilateral\SilverStripe\Searchable\Searchable:
       page_lenth: 20
 
 ## Custom results controller
@@ -61,5 +61,5 @@ configuration variable:
     
 EG, in config.yml
 
-    Searchable:
+    ilateral\SilverStripe\Searchable\Searchable:
       template_class: 'your_custom_controller'

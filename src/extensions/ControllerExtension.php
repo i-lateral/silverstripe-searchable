@@ -3,6 +3,7 @@
 namespace ilateral\SilverStripe\Searchable\Extensions;
 
 use SilverStripe\Core\Extension;
+use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TextField;
