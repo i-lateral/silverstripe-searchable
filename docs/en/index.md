@@ -4,8 +4,8 @@ Adds more complex site searching using the SilverStripe ORM and also
 adds dedicated templates for search results across multiple search 
 objects.
 
-To get started quickly, install via composer:
+More Information:
 
-    composer require i-lateral/silverstripe-searchable
-
-For full documentation [check out the docs](docs/en/index.md)
+* [Install Instructions](installation.md)
+* [Configuring](configuration.md)
+* [Templating](templates.md)
