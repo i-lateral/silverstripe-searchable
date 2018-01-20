@@ -1,4 +1,4 @@
-<div class="search-results">
+<div class="search-results container main content-container">
     <h1><%t Searchable.SearchResultsFor "Search Results for '{query}'" query=$Query %></h1>
 
     <% if $Results %>
