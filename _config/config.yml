@@ -1,6 +1,6 @@
 ---
 Name: searchableconfig
 ---
-Controller:
+SilverStripe\Control\Controller:
   extensions:
-    - SearchableControllerExtension
+    - ilateral\SilverStripe\Searchable\Extensions\ControllerExtension

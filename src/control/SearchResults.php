@@ -1,5 +1,20 @@
 <?php
 
+namespace ilateral\SilverStripe\Searchable\Control;
+
+use SilverStripe\Control\Controller;
+use SilverStripe\Control\Director;
+use SilverStripe\ORM\PaginatedList;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\View\ArrayData;
+use SilverStripe\CMS\Controllers\ContentController;
+use ilateral\SilverStripe\Searchable\Searchable;
+
+/**
+ * Controller responsible for handling search results
+ * 
+ * @package Searchable
+ */
 class SearchResults extends Controller
 {
 
@@ -15,9 +30,19 @@ class SearchResults extends Controller
     /**
      * @config
      */
-    public static $allowed_actions = array(
+    public static $allowed_actions = [
         "object"
-    );
+    ];
+
+    /**
+     * Setup default templates for this controller
+     *
+     * @var array
+     */
+    protected $templates = [
+        "index" => [SearchResults::class, "Page"],
+        "object" => [SearchResults::class . "_object", SearchResults::class, "Page"]
+    ];
 
     public function getQuery()
     {
@@ -38,6 +63,24 @@ class SearchResults extends Controller
             Director::absoluteBaseURL(),
             $this->Link($action)
         );
+    }
+
+    /**
+     * If content controller exists, return it's menu function
+     * @param int $level Menu level to return.
+     * @return ArrayList
+     */
+    public function getMenu($level = 1)
+    {
+        if (class_exists(ContentController::class)) {
+            $controller = ContentController::singleton();
+            return $controller->getMenu($level);
+        }
+    }
+
+    public function Menu($level)
+    {
+        return $this->getMenu();
     }
 
     public function index()
@@ -93,10 +136,7 @@ class SearchResults extends Controller
 
         $this->extend("onBeforeIndex");
 
-        return $this->renderWith(array(
-            "SearchResults",
-            "Page"
-        ));
+        return $this->render();
     }
 
     public function object()
@@ -136,11 +176,15 @@ class SearchResults extends Controller
 
         $this->extend("onBeforeObject");
 
-        return $this->renderWith(array(
-            "SearchResults_{$classname}",
-            "SearchResults_object",
-            "SearchResults",
-            "Page"
-        ));
+        // Add the current object classname to the start of the
+        // templates array before render
+        $tempaltes = $this->templates["object"];
+        array_unshift(
+            $templates,
+            SearchResults::class . "_{$classname}"
+        );
+        $this->templates["object"] = $templates;
+
+        return $this->render();
     }
 }

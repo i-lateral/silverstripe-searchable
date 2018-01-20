@@ -2,6 +2,6 @@
 Name: searchableroutes
 After: framework/routes#rootroutes
 ---
-Director:
+SilverStripe\Control\Director:
   rules:
-    'results//$Action/$ID': 'SearchResults'
+    'results//$Action/$ID': 'ilateral\SilverStripe\Searchable\Control\SearchResults'

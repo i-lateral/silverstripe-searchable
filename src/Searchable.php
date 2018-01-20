@@ -1,5 +1,12 @@
 <?php
 
+namespace ilateral\SilverStripe\Searchable;
+
+use SilverStripe\View\ViewableData;
+use SilverStripe\Dev\Deprecation;
+use SilverStripe\ORM\ArrayList;
+use ilateral\SilverStripe\Searchable\Control\SearchResults;
+
 class Searchable extends ViewableData
 {
 
@@ -61,7 +68,7 @@ class Searchable extends ViewableData
      * @var string
      * @config
      */
-    private static $template_class = 'SearchResults';
+    private static $template_class = SearchResults::class;
 
     /**
      * Add an object to the Searchable module, this object will
@@ -102,7 +109,7 @@ class Searchable extends ViewableData
         $custom_filters = Searchable::config()->custom_filters;
         $results = ArrayList::create();
 
-        $filter = array();
+        $filter = [];
 
         foreach ($columns as $col) {
             $filter["{$col}:PartialMatch"] = $keywords;

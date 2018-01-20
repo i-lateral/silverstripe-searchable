@@ -4,7 +4,7 @@
     <% if $Results %>
         <div class="search-results-list">
             <% loop $Results %>
-                <% include SearchResultsSummary %>
+                <% include ilateral\SilverStripe\Searchable\SearchResultsSummary %>
             <% end_loop %>
 
             <% with $Results %>

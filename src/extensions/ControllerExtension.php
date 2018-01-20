@@ -1,6 +1,20 @@
 <?php
 
-class SearchableControllerExtension extends Extension
+namespace ilateral\SilverStripe\Searchable\Extensions;
+
+use SilverStripe\Core\Extension;
+use SilverStripe\Forms\Form;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\TextField;
+use SilverStripe\Forms\FormAction;
+use ilateral\SilverStripe\Searchable\Searchable;
+
+/**
+ * Add SearchForm to controllers
+ * 
+ * @package Searchable
+ */
+class ControllerExtension extends Extension
 {
 
     /**
@@ -29,12 +43,16 @@ class SearchableControllerExtension extends Extension
             );
 
             $template_class = Searchable::config()->template_class;
-            $results_page = new $template_class;
+            $results_page = Injector::inst()->create($template_class);
 
-            $form = Form::create($this->owner, 'SearchForm', $fields, $actions)
-                ->setFormMethod('get')
-                ->setFormAction($results_page->Link())
-                ->disableSecurityToken();
+            $form = Form::create(
+                $this->owner,
+                'SearchForm',
+                $fields,
+                $actions
+            )->setFormMethod('get')
+            ->setFormAction($results_page->Link())
+            ->disableSecurityToken();
 
             $this->owner->extend("updateSearchForm", $form);
 

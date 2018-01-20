@@ -11,7 +11,7 @@
 
             <div class="search-results-list {$ClassName}">
                 <% loop $Results %>
-                    <% include SearchResultsSummary %>
+                    <% include ilateral\SilverStripe\Searchable\SearchResultsSummary %>
                 <% end_loop %>
 
                 <p>
