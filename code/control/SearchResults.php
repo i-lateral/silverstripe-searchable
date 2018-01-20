@@ -44,33 +44,40 @@ class SearchResults extends Controller
     {
         $keywords = $this->getQuery();
         $limit = Searchable::config()->dashboard_items;
-        $classes_to_search = Searchable::getObjects();
+        $classes_to_search = Searchable::config()->objects;
         $objects_list = ArrayList::create();
 
+        // If only one class available, redirect to the object
+        // action
         if (count($classes_to_search) == 1) {
+            reset($classes_to_search);
+            $classname = key($classes_to_search);
             return $this->redirect(Controller::join_links(
-                self::config()->url_segment,
-                "object",
-                $classes_to_search[0]['ClassName'],
+                $this->Link("object"),
+                $classname,
                 "?Search={$keywords}"
             ));
         }
 
-        foreach ($classes_to_search as $object) {
-            $results = Searchable::Results($object["ClassName"], $object["Columns"], $keywords, $limit);
+        foreach ($classes_to_search as $classname => $cols) {
+            $results = Searchable::Results(
+                $classname,
+                $cols,
+                $keywords,
+                $limit
+            );
 
             if ($results->exists()) {
-                $objects_list->add(ArrayData::create(array(
-                    "Title" => $object["Title"],
-                    "ClassName" => $object["ClassName"],
+                $objects_list->add(ArrayData::create([
+                    "Title" => _t($classname.".PLURALNAME", $classname),
+                    "ClassName" => $classname,
                     "Results" => $results,
                     "Link" => Controller::join_links(
-                        $this->config()->url_segment,
-                        "object",
-                        $object["ClassName"],
+                        $this->Link("object"),
+                        $classname,
                         "?Search={$keywords}"
                     )
-                )));
+                ]));
             }
         }
 
@@ -79,7 +86,7 @@ class SearchResults extends Controller
                 "Searchable.TopSearchResults",
                 "Top Search Results for '{query}'",
                 'This is the title used for viewing the top results of a search for each object',
-                array('query' => $this->getQuery())
+                ['query' => $this->getQuery()]
             ),
             "Objects" => $objects_list
         ));
@@ -94,29 +101,38 @@ class SearchResults extends Controller
 
     public function object()
     {
-        $classname = $this->request->param("ID");
-        $classes_to_search = Searchable::getObjects();
+        $class_param = $this->request->param("ID");
+        $classes_to_search = Searchable::config()->objects;
+        $page_length = Searchable::config()->page_length;
+        $cols = [];
 
-        foreach ($classes_to_search as $object) {
-            if ($object["ClassName"] == $classname) {
-                $cols = $object["Columns"];
+        foreach ($classes_to_search as $classname => $columns) {
+            if ($class_param == $classname) {
+                $cols = $columns;
             }
+        }
+        
+        if (!count($cols)) {
+            return $this->httpError(
+                500,
+                "No searchable classes configured"
+            );
         }
 
         $keywords = $this->getQuery();
 
-        $this->customise(array(
+        $this->customise([
             "MetaTitle" => _t(
                 'Searchable.SearchResultsFor',
                 "Search Results for '{query}'",
                 'This is the title used for viewing the results of a search',
-                array('query' => $this->getQuery())
+                ['query' => $this->getQuery()]
             ),
             "Results" => PaginatedList::create(
-                Searchable::Results($classname, $cols, $keywords),
+                Searchable::Results($class_param, $cols, $keywords),
                 $this->request
-            )->setPageLength(Searchable::config()->page_length)
-        ));
+            )->setPageLength($page_length)
+        ]);
 
         $this->extend("onBeforeObject");
 

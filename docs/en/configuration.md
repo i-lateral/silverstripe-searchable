@@ -1,23 +1,15 @@
 ## Configuration
 
 To add your object to the search results, you need to make Searchable
-aware of it. Do this by adding the following to your _config.php:
+aware of it. Do this by using the `objects` config variable:
 
-    Searchable::add(
-        "ObjectClass",
-        array("SearchCol1","SearchCol2"),
-        "Friendly Title (for template"
-    );
+For example, in config.yml
+
+    Searchable:
+      objects:
+        "Page": ["Title","MenuTitle","Content","URLSegment"]
 
 This will then add the object to Searchable's searchable classes.
-
-For example, you can add SiteTree using the following:
-
-    Searchable::add(
-        "SiteTree",
-        array("Title","MenuTitle","Content","URLSegment"),
-        "Pages"
-    );
 
 **NOTE** Searchable will check an object's canView method before 
 adding it to the list of results. If this returns true (the 
@@ -31,32 +23,30 @@ thing to do is add the following function to your dataobject:
     {
         return true;
     }
-    
-### Extended Dataobjects
 
-At the moment Searchable generates errors if you want to try and 
-search an object that extends another object using the fields of 
-it's parent.
+## Custom Filters
 
-For example, the below will generate an error:
+If you want to specify custom filters that can be associated with
+an object you are searching, you can, using the
+`Searchable.custom_filters` config variable.
 
-    Searchable::add(
-        "Page",
-        array("Title","MenuTitle"),
-        "Pages"
-    );
-    
-You will have to search SiteTree (as it contains the fields Title and
-Menutitle).
+For example if we are searching a "Product" object and want to only
+show objects that have Disabled set to 0, we would add the following
+to our config.yml
 
-### Overwrite the default page length
+    Searchable:
+      custom_filters:
+        Product:
+          "Disabled": 0
+
+## Overwrite the default page length
 
 You can change the default page length of search results by using
 configuration:
 
     Searchable.page_lenth = 20;
 
-Or, in config.yml
+For example, in config.yml
 
     Searchable:
       page_lenth: 20

@@ -8,18 +8,21 @@ class Searchable extends ViewableData
      * determine if the SearchForm is usable
      *
      * @var array
+     * @config
      */
-    private static $objects = array();
+    private static $objects = [];
 
     public static function getObjects()
     {
-        return self::$objects;
+        Deprecation::notice(1.1, "Get objects is no longer being supported, use 'Searchable.objects' instead");
+
+        return self::config()->objects;
     }
 
     /**
      * Specify how many items should appear per page of results.
      *
-     * @var Int
+     * @var int
      * @config
      */
     private static $page_length = 10;
@@ -28,7 +31,7 @@ class Searchable extends ViewableData
      * Specify how many items should appear per object on the results
      * dashboard.
      *
-     * @var Int
+     * @var int
      * @config
      */
     private static $dashboard_items = 5;
@@ -47,8 +50,7 @@ class Searchable extends ViewableData
      *     )
      * );
      *
-     *
-     * @var Array
+     * @var array
      * @config
      */
     private static $custom_filters = array();
@@ -56,7 +58,7 @@ class Searchable extends ViewableData
     /**
      *
      *
-     * @var Text
+     * @var string
      * @config
      */
     private static $template_class = 'SearchResults';
@@ -70,13 +72,13 @@ class Searchable extends ViewableData
      * @param $title The title of this object (that will appear in the dashboard)
      *
      */
-    public static function add($classname, $columns = array(), $title)
+    public static function add($classname, $columns = array(), $title = null)
     {
-        self::$objects[] = array(
-            "ClassName" => $classname,
-            "Columns" => $columns,
-            "Title" => $title
-        );
+        if ($title) {
+            Deprecation::notice(1.1, "Title is no longer used, instead set ClassName.PluralName in translations");
+        }
+
+        self::config()->objects[$classname] = $columns;
 
         $cols_string = '"' . implode('","', $columns) . '"';
     }
@@ -113,7 +115,7 @@ class Searchable extends ViewableData
             $search = $search->filter($custom_filters[$classname]);
         }
 
-        $searchable = new Searchable();
+        $searchable = Searchable::create();
 
         if ($searchable->hasMethod('filterResultsByCallback')) {
             $search = $searchable->filterResultsByCallback($search, $classname);

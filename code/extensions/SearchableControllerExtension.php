@@ -3,11 +3,6 @@
 class SearchableControllerExtension extends Extension
 {
 
-    private static $allowed_actions = array(
-        "SearchForm",
-        'results',
-    );
-
     /**
      * Add a site search form to all controllers that links to the
      * results controller.
@@ -17,7 +12,7 @@ class SearchableControllerExtension extends Extension
     public function SearchForm()
     {
         // If we have setup objects to search
-        if (count(Searchable::getObjects())) {
+        if (count(Searchable::config()->objects)) {
             $searchText =  "";
 
             if ($this->owner->request && $this->owner->request->getVar('Search')) {
