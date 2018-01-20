@@ -13,3 +13,7 @@ This document logs changes for the Carousel module
 ## 1.1.0
 
 * Switch to soley config based setup (rather than using Searchable::add)
+
+## 1.1.1
+
+* Minor template updates (for better simple and bootstrap support)
