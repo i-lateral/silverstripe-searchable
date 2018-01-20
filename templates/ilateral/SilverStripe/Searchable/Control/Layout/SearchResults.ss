@@ -1,4 +1,4 @@
-<div class="search-results">
+<div class="search-results container main content-container">
     <h1><%t Searchable.TopSearchResults "Top Search Results for '{query}'" query=$Query %></h1>
 
     <% if $Objects.exists %>
@@ -9,16 +9,18 @@
         <% loop $Objects %>
             <h2>$Title</h2>
 
-            <div class="search-results-list {$ClassName}">
-                <% loop $Results %>
-                    <% include ilateral\SilverStripe\Searchable\SearchResultsSummary %>
-                <% end_loop %>
+            <div class="search-results-list {$ClassName} line">
+                <div class="unit size4of4">
+                    <% loop $Results %>
+                        <% include ilateral\SilverStripe\Searchable\SearchResultsSummary %>
+                    <% end_loop %>
 
-                <p>
-                    <a class="view-all-link btn" href="{$Link}">
-                        <%t Searchable.ViewAll "View all results" %>
-                    </a>
-                </p>
+                    <p>
+                        <a class="view-all-link btn btn-primary" href="{$Link}">
+                            <%t Searchable.ViewAll "View all results" %>
+                        </a>
+                    </p>
+                </div>
             </div>
 
             <hr/>

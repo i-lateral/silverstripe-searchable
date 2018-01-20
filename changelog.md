@@ -14,6 +14,14 @@ This document logs changes for the Carousel module
 
 * Switch to soley config based setup (rather than using Searchable::add)
 
+## 1.1.1
+
+* Minor template updates (for better simple and bootstrap support)
+
 ## 2.0.0
 
 * SS4 version
+
+## 2.0.1
+
+* Template updates from 1.1.1

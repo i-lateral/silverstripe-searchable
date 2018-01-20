@@ -2,12 +2,11 @@
     <h2><a href="$Link">$Title</a></h2>
 
     <% if $Content %>
-        <p>$Content.FirstParagraph</p>
+        <p>
+            $Content.FirstParagraph
+            <a class="read-more-link" href="$Link">
+                <%t Searchable.ReadMore "Read More About '{title}'" title=$Title %>
+            </a>
+        </p>
     <% end_if %>
-
-    <p>
-        <a class="read-more-link btn" href="$Link">
-            <%t Searchable.ReadMore "Read More" %>
-        </a>
-    </p>
 </div>
