@@ -17,3 +17,7 @@ This document logs changes for the Carousel module
 ## 1.1.1
 
 * Minor template updates (for better simple and bootstrap support)
+
+## 1.1.2
+
+* Add a default form template to use SearchForm from Framework.

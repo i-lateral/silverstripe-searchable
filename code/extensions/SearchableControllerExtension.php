@@ -31,10 +31,15 @@ class SearchableControllerExtension extends Extension
             $template_class = Searchable::config()->template_class;
             $results_page = new $template_class;
 
-            $form = Form::create($this->owner, 'SearchForm', $fields, $actions)
-                ->setFormMethod('get')
-                ->setFormAction($results_page->Link())
-                ->disableSecurityToken();
+            $form = Form::create(
+                $this->owner,
+                'SearchForm',
+                $fields,
+                $actions
+            )->setFormMethod('get')
+            ->setFormAction($results_page->Link())
+            ->setTemplate("SearchForm")
+            ->disableSecurityToken();
 
             $this->owner->extend("updateSearchForm", $form);
 
