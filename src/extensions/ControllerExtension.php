@@ -53,6 +53,7 @@ class ControllerExtension extends Extension
                 $actions
             )->setFormMethod('get')
             ->setFormAction($results_page->Link())
+            ->setTemplate('ilateral\SilverStripe\Searchable\Includes\SearchForm')
             ->disableSecurityToken();
 
             $this->owner->extend("updateSearchForm", $form);
