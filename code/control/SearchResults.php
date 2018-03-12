@@ -105,9 +105,11 @@ class SearchResults extends Controller
         $classes_to_search = Searchable::config()->objects;
         $page_length = Searchable::config()->page_length;
         $cols = [];
+        $classname = null;
 
-        foreach ($classes_to_search as $classname => $columns) {
-            if ($class_param == $classname) {
+        foreach ($classes_to_search as $search_class => $columns) {
+            if ($class_param == $search_class) {
+                $classname = $search_class;
                 $cols = $columns;
             }
         }
