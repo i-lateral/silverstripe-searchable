@@ -22,6 +22,10 @@ This document logs changes for the Carousel module
 
 * Add a default form template to use SearchForm from Framework.
 
+## 1.1.3
+
+* Fix templating issue
+
 ## 2.0.0
 
 * SS4 version
@@ -37,3 +41,7 @@ This document logs changes for the Carousel module
 ## 2.0.3
 
 * Simplify templates slightly (so they will wirk better with simple theme)
+
+## 2.0.4
+
+* Fix templating issue
