@@ -45,3 +45,7 @@ This document logs changes for the Carousel module
 ## 2.0.4
 
 * Fix templating issue
+
+## 2.0.5
+
+* Add default Subsites support

@@ -9,6 +9,7 @@ use SilverStripe\ORM\ArrayList;
 use SilverStripe\View\ArrayData;
 use SilverStripe\CMS\Controllers\ContentController;
 use ilateral\SilverStripe\Searchable\Searchable;
+use SilverStripe\Subsites\Model\Subsite;
 
 /**
  * Controller responsible for handling search results
@@ -81,6 +82,29 @@ class SearchResults extends Controller
     public function Menu($level)
     {
         return $this->getMenu();
+    }
+
+    /**
+     * Overwrite default init to support subsites (if installed)
+     * 
+     * @return void 
+     */
+    protected function init()
+    {
+        parent::init();
+
+        # Check for subsites and add support
+        if (class_exists(Subsite::class)) {
+            $subsite = Subsite::currentSubsite();
+
+            if ($subsite && $subsite->Theme) {
+                SSViewer::add_themes([$subsite->Theme]);
+            }
+
+            if ($subsite && i18n::getData()->validate($subsite->Language)) {
+                i18n::set_locale($subsite->Language);
+            }
+        }
     }
 
     public function index()
