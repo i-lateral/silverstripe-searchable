@@ -49,3 +49,7 @@ This document logs changes for the Carousel module
 ## 2.0.5
 
 * Add default Subsites support
+
+## 2.0.6
+
+* Fix import errors

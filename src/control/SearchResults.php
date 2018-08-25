@@ -2,14 +2,16 @@
 
 namespace ilateral\SilverStripe\Searchable\Control;
 
-use SilverStripe\Control\Controller;
+use SilverStripe\i18n\i18n;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\View\SSViewer;
+use SilverStripe\View\ArrayData;
 use SilverStripe\Control\Director;
 use SilverStripe\ORM\PaginatedList;
-use SilverStripe\ORM\ArrayList;
-use SilverStripe\View\ArrayData;
-use SilverStripe\CMS\Controllers\ContentController;
-use ilateral\SilverStripe\Searchable\Searchable;
+use SilverStripe\Control\Controller;
 use SilverStripe\Subsites\Model\Subsite;
+use ilateral\SilverStripe\Searchable\Searchable;
+use SilverStripe\CMS\Controllers\ContentController;
 
 /**
  * Controller responsible for handling search results
