@@ -123,7 +123,7 @@ class SearchResults extends Controller
             $classname = key($classes_to_search);
             return $this->redirect(Controller::join_links(
                 $this->Link("object"),
-                $classname,
+                urlencode($classname),
                 "?Search={$keywords}"
             ));
         }
@@ -143,7 +143,7 @@ class SearchResults extends Controller
                     "Results" => $results,
                     "Link" => Controller::join_links(
                         $this->Link("object"),
-                        $classname,
+                        urlencode($classname),
                         "?Search={$keywords}"
                     )
                 ]));
@@ -167,7 +167,7 @@ class SearchResults extends Controller
 
     public function object()
     {
-        $class_param = $this->request->param("ID");
+        $class_param = urldecode($this->request->param("ID"));
         $classes_to_search = Searchable::config()->objects;
         $page_length = Searchable::config()->page_length;
         $cols = [];
