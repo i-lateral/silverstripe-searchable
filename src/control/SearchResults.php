@@ -138,7 +138,7 @@ class SearchResults extends Controller
 
             if ($results->exists()) {
                 $objects_list->add(ArrayData::create([
-                    "Title" => _t($classname.".PLURALNAME", $classname),
+                    "Title" => $classname::singleton()->i18n_plural_name(),
                     "ClassName" => $classname,
                     "Results" => $results,
                     "Link" => Controller::join_links(
