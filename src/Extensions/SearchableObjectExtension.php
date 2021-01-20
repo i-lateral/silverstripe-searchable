@@ -10,7 +10,7 @@ use SilverStripe\ORM\DataExtension;
 class SearchableObjectExtension extends DataExtension
 {
     private static $belongs_to = [
-        'SearchRecord' => SearchTable::class
+        'SearchRecord' => SearchTable::class . '.BaseObject'
     ];
 
     /**
