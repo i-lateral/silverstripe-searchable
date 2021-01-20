@@ -19,13 +19,6 @@ class Searchable extends ViewableData
      */
     private static $objects = [];
 
-    public static function getObjects()
-    {
-        Deprecation::notice(1.1, "Get objects is no longer being supported, use 'Searchable.objects' instead");
-
-        return self::config()->objects;
-    }
-
     /**
      * Specify how many items should appear per page of results.
      *
