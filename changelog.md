@@ -53,3 +53,7 @@ This document logs changes for the Carousel module
 ## 2.0.6
 
 * Fix import errors
+
+## 3.0.0
+
+* Add custom SearchTable to cache search data and support Full Text Search 
