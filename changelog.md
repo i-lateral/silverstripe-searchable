@@ -56,4 +56,5 @@ This document logs changes for the Carousel module
 
 ## 3.0.0
 
-* Add custom SearchTable to cache search data and support Full Text Search 
+* Add custom SearchTable to cache search data and support Full Text Search
+* Remove depretiated functions
