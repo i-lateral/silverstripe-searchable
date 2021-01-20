@@ -13,12 +13,7 @@ class SearchableObjectExtension extends DataExtension
         'SearchRecord' => SearchTable::class . '.BaseObject'
     ];
 
-    /**
-     * After base object is written, sync fields to search table
-     *
-     * @return null 
-     */
-    public function onAfterWrite()
+    public function saveToSearchRecord()
     {
         /** @var \SilverStripe\ORM\DataObject */
         $owner = $this->getOwner();
@@ -47,6 +42,36 @@ class SearchableObjectExtension extends DataExtension
         if ($write) {
             $search->write();
         }
+    }
+
+    /**
+     * After base object is written, push fields to search table
+     *
+     * @return null
+     */
+    public function onAfterWrite()
+    {
+        /** @var \SilverStripe\ORM\DataObject */
+        $owner = $this->getOwner();
+
+        // If this is a versioned record, push to search after publish (not write)
+        if ($owner->hasMethod('isPublished')) {
+            return;
+        }
+
+        $owner->saveToSearchRecord();
+    }
+
+    /**
+     * After base object is published (if available), push fields to search table
+     *
+     * @return null
+     */
+    public function onAfterPublish()
+    {
+        /** @var \SilverStripe\ORM\DataObject */
+        $owner = $this->getOwner();
+        $owner->saveToSearchRecord();
     }
 
     /**
