@@ -6,6 +6,8 @@ use SilverStripe\View\ViewableData;
 use SilverStripe\Dev\Deprecation;
 use SilverStripe\ORM\ArrayList;
 use ilateral\SilverStripe\Searchable\Control\SearchResults;
+use ilateral\SilverStripe\Searchable\Model\SearchTable;
+use SilverStripe\Core\ClassInfo;
 
 class Searchable extends ViewableData
 {
@@ -72,12 +74,8 @@ class Searchable extends ViewableData
      * @param $title The title of this object (that will appear in the dashboard)
      *
      */
-    public static function add($classname, $columns = array(), $title = null)
+    public static function add($classname, $columns = array())
     {
-        if ($title) {
-            Deprecation::notice(1.1, "Title is no longer used, instead set ClassName.PluralName in translations");
-        }
-
         self::config()->objects[$classname] = $columns;
 
         $cols_string = '"' . implode('","', $columns) . '"';
@@ -90,47 +88,68 @@ class Searchable extends ViewableData
      * Results also checks to see if there is a custom filter set in
      * configuration and adds it.
      *
+     * @param string $classname Name of the object we will be filtering
+     * @param array $columns an array of the column names we will be sorting
+     * @param $query the current search query
+     *
+     * @return SS_List
+     */
+     public static function findResults($classname, $keywords, $limit = 0)
+     {
+        $custom_filters = Searchable::config()->custom_filters;
+        $results = ArrayList::create();
+        $all_classes = ClassInfo::ancestry($classname);
+        $all_classes = array_merge(
+            $all_classes,
+            ClassInfo::subclassesFor($classname)
+        );
+
+        // Get a core results set from search table
+        $search_ids = SearchTable::get()
+            ->filter([
+                'SearchFields:Fulltext' => $keywords,
+                'BaseObjectClass' => $all_classes
+            ])->columnUnique('BaseObjectID');
+
+        // Now get a core results set based on found IDS (if results found)
+        if (count($search_ids) > 0) {
+            $search = $classname::get()->filter('ID', $search_ids);
+    
+            if (is_array($custom_filters) && array_key_exists($classname, $custom_filters) && is_array($custom_filters[$classname])) {
+                $search = $search->filter($custom_filters[$classname]);
+            }
+    
+            $searchable = Searchable::create();
+    
+            if ($searchable->hasMethod('filterResultsByCallback')) {
+                $search = $searchable->filterResultsByCallback($search, $classname);
+            }
+    
+            if ($limit) {
+                $search = $search->limit($limit);
+            }
+    
+            foreach ($search as $result) {
+                if ($result->canView() || (isset($result->ShowInSearch) && $result->ShowInSearch)) {
+                    $results->add($result);
+                }
+            }
+        }
+
+        return $results;
+    }
+
+    /**
      * @param $classname Name of the object we will be filtering
      * @param $columns an array of the column names we will be sorting
      * @param $query the current search query
      *
      * @return SS_List
      */
-     public static function Results($classname, $columns, $keywords, $limit = 0)
-     {
-        $cols_string = implode('","', $columns);
-        $custom_filters = Searchable::config()->custom_filters;
-        $results = ArrayList::create();
+    public static function Results($classname, $columns, $keywords, $limit = 0)
+    {
+        Deprecation::notice(4.0, "Serachable::Results() is depreciated, use Serachable::findResults() instead");
 
-        $filter = [];
-
-        foreach ($columns as $col) {
-            $filter["{$col}:PartialMatch"] = $keywords;
-        }
-
-        $search = $classname::get()
-            ->filterAny($filter);
-
-        if (is_array($custom_filters) && array_key_exists($classname, $custom_filters) && is_array($custom_filters[$classname])) {
-            $search = $search->filter($custom_filters[$classname]);
-        }
-
-        $searchable = Searchable::create();
-
-        if ($searchable->hasMethod('filterResultsByCallback')) {
-            $search = $searchable->filterResultsByCallback($search, $classname);
-        }
-
-        if ($limit) {
-            $search = $search->limit($limit);
-        }
-
-        foreach ($search as $result) {
-            if ($result->canView() || (isset($result->ShowInSearch) && $result->ShowInSearch)) {
-                $results->add($result);
-            }
-        }
-
-        return $results;
-     }
+        return self::findResults($classname, $keywords, $limit);
+    }
 }

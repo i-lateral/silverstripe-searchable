@@ -129,9 +129,8 @@ class SearchResults extends Controller
         }
 
         foreach ($classes_to_search as $classname => $cols) {
-            $results = Searchable::Results(
+            $results = Searchable::findResults(
                 $classname,
-                $cols,
                 $keywords,
                 $limit
             );
@@ -197,7 +196,10 @@ class SearchResults extends Controller
                 ['query' => $this->getQuery()]
             ),
             "Results" => PaginatedList::create(
-                Searchable::Results($class_param, $cols, $keywords),
+                Searchable::findResults(
+                    $class_param,
+                    $keywords
+                ),
                 $this->request
             )->setPageLength($page_length)
         ]);
