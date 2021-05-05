@@ -59,7 +59,9 @@ class SearchableObjectExtension extends DataExtension
             return;
         }
 
-        $owner->saveToSearchRecord();
+        if ($owner->hasMethod('saveToSearchRecord')) {
+            $owner->saveToSearchRecord();
+        }
     }
 
     /**
@@ -71,7 +73,10 @@ class SearchableObjectExtension extends DataExtension
     {
         /** @var \SilverStripe\ORM\DataObject */
         $owner = $this->getOwner();
-        $owner->saveToSearchRecord();
+
+        if ($owner->hasMethod('saveToSearchRecord')) {
+            $owner->saveToSearchRecord();
+        }
     }
 
     /**
