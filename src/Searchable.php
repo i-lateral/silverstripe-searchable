@@ -128,13 +128,15 @@ class Searchable extends ViewableData
                 'BaseObjectClass' => $all_classes
             ]);
 
-        // Update custom filters to work against a related object 
+        // If custom filters used, filter any relevent items in search 
         if (is_array($custom_filters) && array_key_exists($classname, $custom_filters) && is_array($custom_filters[$classname])) {
-            $filter = [];
-            foreach ($custom_filters[$classname] as $key => $value) {
-                $filter['BaseObject.' . $key] = $value;
+            $object_ids = $classname::get()
+                ->filter($custom_filters[$classname])
+                ->columnUnique('ID');
+
+            if (count($object_ids) > 0) {
+                $search = $search->filter('BaseObjectID', $object_ids);
             }
-            $search = $search->filter($filter);
         }
 
         $search = $search->alterDataQuery(function(DataQuery $query) use ($select, $sort, $order) {
