@@ -2,15 +2,20 @@
 
 namespace ilateral\SilverStripe\Searchable;
 
-use SilverStripe\View\ViewableData;
-use SilverStripe\Dev\Deprecation;
 use SilverStripe\ORM\ArrayList;
-use ilateral\SilverStripe\Searchable\Control\SearchResults;
-use ilateral\SilverStripe\Searchable\Model\SearchTable;
+use SilverStripe\ORM\DataQuery;
 use SilverStripe\Core\ClassInfo;
+use SilverStripe\Dev\Deprecation;
+use SilverStripe\View\ViewableData;
+use ilateral\SilverStripe\Searchable\Model\SearchTable;
+use ilateral\SilverStripe\Searchable\Control\SearchResults;
+use SilverStripe\ORM\Filters\FulltextFilter;
 
 class Searchable extends ViewableData
 {
+    const DEFAULT_SORT = 'SearchableRelevance';
+
+    const DEFAULT_ORDER = "DESC";
 
     /**
      * Cache of objects added via Searchable::add. This is used to
@@ -94,49 +99,68 @@ class Searchable extends ViewableData
      *
      * @return SS_List
      */
-     public static function findResults($classname, $keywords, $limit = 0)
+     public static function findResults(
+         $classname,
+         $keywords,
+         $limit = 0,
+         $sort = self::DEFAULT_SORT,
+         $order = self::DEFAULT_ORDER)
      {
         $custom_filters = Searchable::config()->custom_filters;
         $results = ArrayList::create();
-        $all_classes = ClassInfo::ancestry($classname);
+        $all_classes = [$classname];
         $all_classes = array_merge(
             $all_classes,
             ClassInfo::subclassesFor($classname)
         );
 
+        $search_filter = FulltextFilter::create('SearchFields', $keywords);
+        $search_filter->setModel(SearchTable::class);
+        $select = sprintf(
+            "(MATCH (%s) AGAINST ('{$keywords}'))",
+            $search_filter->getDbName()
+        );
+
         // Get a core results set from search table
-        $search_ids = SearchTable::get()
+        $search = SearchTable::get()
             ->filter([
                 'SearchFields:Fulltext' => $keywords,
                 'BaseObjectClass' => $all_classes
-            ])->columnUnique('BaseObjectID');
+            ]);
 
-        // Now get a core results set based on found IDS (if results found)
-        if (count($search_ids) > 0) {
-            $search = $classname::get()->filter('ID', $search_ids);
-    
-            if (is_array($custom_filters) && array_key_exists($classname, $custom_filters) && is_array($custom_filters[$classname])) {
-                $search = $search->filter($custom_filters[$classname]);
+        // Update custom filters to work against a related object 
+        if (is_array($custom_filters) && array_key_exists($classname, $custom_filters) && is_array($custom_filters[$classname])) {
+            $filter = [];
+            foreach ($custom_filters[$classname] as $key => $value) {
+                $filter['BaseObject.' . $key] = $value;
             }
-    
-            $searchable = Searchable::create();
-    
-            if ($searchable->hasMethod('filterResultsByCallback')) {
-                $search = $searchable->filterResultsByCallback($search, $classname);
-            }
-    
-            if ($limit) {
-                $search = $search->limit($limit);
-            }
-    
-            foreach ($search as $result) {
-                if ($result->canView() || (isset($result->ShowInSearch) && $result->ShowInSearch)) {
-                    $results->add($result);
-                }
+            $search = $search->filter($filter);
+        }
+
+        $search = $search->alterDataQuery(function(DataQuery $query) use ($select, $sort, $order) {
+            $query->selectField($select, self::DEFAULT_SORT);
+            $query->sort($sort, $order);
+        });
+
+        // Check if a custom filter method has been defined
+        $searchable = Searchable::singleton();
+
+        if ($searchable->hasMethod('filterResultsByCallback')) {
+            $search = $searchable->filterResultsByCallback($search, $classname);
+        }
+
+        if ($limit > 0) {
+            $search = $search->limit($limit);
+        }
+
+        foreach ($search as $result) {
+            $object = $result->BaseObject();
+            if ($object->canView() || (isset($object->ShowInSearch) && $object->ShowInSearch)) {
+                $results->add($object);
             }
         }
 
-        return $results;
+        return $results->removeDuplicates();
     }
 
     /**

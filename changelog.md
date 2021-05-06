@@ -58,3 +58,8 @@ This document logs changes for the Carousel module
 
 * Add custom SearchTable to cache search data and support Full Text Search
 * Remove depretiated functions
+
+## 3.0.1
+
+* Add slightly more comprehensive searching by relevence
+* Eliminate some errors that occure during dev/build is extension not loaded
