@@ -15,7 +15,9 @@ class SearchableObjectExtension extends DataExtension
 
     public function saveToSearchRecord()
     {
-        /** @var \SilverStripe\ORM\DataObject */
+        /**
+ * @var \SilverStripe\ORM\DataObject 
+*/
         $owner = $this->getOwner();
         $ancestors = $owner->getClassAncestry();
         $search = $owner->SearchRecord();
@@ -51,7 +53,9 @@ class SearchableObjectExtension extends DataExtension
      */
     public function onAfterWrite()
     {
-        /** @var \SilverStripe\ORM\DataObject */
+        /**
+ * @var \SilverStripe\ORM\DataObject 
+*/
         $owner = $this->getOwner();
 
         // If this is a versioned record, push to search after publish (not write)
@@ -71,7 +75,9 @@ class SearchableObjectExtension extends DataExtension
      */
     public function onAfterPublish()
     {
-        /** @var \SilverStripe\ORM\DataObject */
+        /**
+ * @var \SilverStripe\ORM\DataObject 
+*/
         $owner = $this->getOwner();
 
         if ($owner->hasMethod('saveToSearchRecord')) {

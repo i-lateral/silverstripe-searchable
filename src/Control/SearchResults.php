@@ -25,7 +25,7 @@ class SearchResults extends Controller
      * Designate the URL segment of this controller, used when
      * generating links to this controller.
      *
-     * @var string
+     * @var    string
      * @config
      */
     private static $url_segment = "results";
@@ -70,7 +70,8 @@ class SearchResults extends Controller
 
     /**
      * If content controller exists, return it's menu function
-     * @param int $level Menu level to return.
+     *
+     * @param  int $level Menu level to return.
      * @return ArrayList
      */
     public function getMenu($level = 1)
@@ -95,7 +96,7 @@ class SearchResults extends Controller
     {
         parent::init();
 
-        # Check for subsites and add support
+        // Check for subsites and add support
         if (class_exists(Subsite::class)) {
             $subsite = Subsite::currentSubsite();
 
@@ -121,11 +122,13 @@ class SearchResults extends Controller
         if (count($classes_to_search) == 1) {
             reset($classes_to_search);
             $classname = key($classes_to_search);
-            return $this->redirect(Controller::join_links(
-                $this->Link("object"),
-                urlencode($classname),
-                "?Search={$keywords}"
-            ));
+            return $this->redirect(
+                Controller::join_links(
+                    $this->Link("object"),
+                    urlencode($classname),
+                    "?Search={$keywords}"
+                )
+            );
         }
 
         foreach ($classes_to_search as $classname => $cols) {
@@ -136,20 +139,25 @@ class SearchResults extends Controller
             );
 
             if ($results->exists()) {
-                $objects_list->add(ArrayData::create([
-                    "Title" => $classname::singleton()->i18n_plural_name(),
-                    "ClassName" => $classname,
-                    "Results" => $results,
-                    "Link" => Controller::join_links(
-                        $this->Link("object"),
-                        urlencode($classname),
-                        "?Search={$keywords}"
+                $objects_list->add(
+                    ArrayData::create(
+                        [
+                        "Title" => $classname::singleton()->i18n_plural_name(),
+                        "ClassName" => $classname,
+                        "Results" => $results,
+                        "Link" => Controller::join_links(
+                            $this->Link("object"),
+                            urlencode($classname),
+                            "?Search={$keywords}"
+                        )
+                        ]
                     )
-                ]));
+                );
             }
         }
 
-        $this->customise(array(
+        $this->customise(
+            array(
             "MetaTitle" => _t(
                 "Searchable.TopSearchResults",
                 "Top Search Results for '{query}'",
@@ -157,7 +165,8 @@ class SearchResults extends Controller
                 ['query' => $this->getQuery()]
             ),
             "Objects" => $objects_list
-        ));
+            )
+        );
 
         $this->extend("onBeforeIndex");
 
@@ -188,7 +197,8 @@ class SearchResults extends Controller
 
         $keywords = $this->getQuery();
 
-        $this->customise([
+        $this->customise(
+            [
             "MetaTitle" => _t(
                 'Searchable.SearchResultsFor',
                 "Search Results for '{query}'",
@@ -202,7 +212,8 @@ class SearchResults extends Controller
                 ),
                 $this->request
             )->setPageLength($page_length)
-        ]);
+            ]
+        );
 
         $this->extend("onBeforeObject");
 
