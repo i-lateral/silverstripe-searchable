@@ -63,3 +63,7 @@ This document logs changes for the Carousel module
 
 * Add slightly more comprehensive searching by relevence
 * Eliminate some errors that occure during dev/build is extension not loaded
+
+## 3.0.2
+
+* When subsites is installed, import frfom all subsites

@@ -9,6 +9,7 @@ use SilverStripe\Dev\BuildTask;
 use SilverStripe\Control\Director;
 use SilverStripe\ORM\DatabaseAdmin;
 use SilverStripe\Control\Controller;
+use SilverStripe\Subsites\Model\Subsite;
 
 /**
  * Take data from linked objects and import into search table
@@ -61,7 +62,13 @@ class ImportSearchDataTask extends BuildTask
     {
         $count = 0;
 
-        foreach ($classname::get() as $object) {
+        if (class_exists(Subsite::class)) {
+            $objects = Subsite::get_from_all_subsites($classname);
+        } else {
+            $objects = $classname::get();
+        }
+
+        foreach ($objects as $object) {
             $search = SearchTable::get()
                 ->filter(
                     [
