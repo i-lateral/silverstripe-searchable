@@ -41,3 +41,11 @@ question, for example:
     
 The above would be used to display only search results for a product
 object.
+
+## Search Form
+
+The search form uses a dedicated `SearchForm` template, allowing for for customisation
+of the styling.
+
+You may also want to style the search button itself, so to aid with that, the search
+button uses it's own custom template `SearchButton`.
