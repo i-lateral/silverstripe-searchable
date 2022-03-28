@@ -67,3 +67,7 @@ This document logs changes for the Carousel module
 ## 3.0.2
 
 * When subsites is installed, import frfom all subsites
+
+## 3.0.3
+
+* Use custom template for search button 

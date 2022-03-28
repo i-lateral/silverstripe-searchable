@@ -41,6 +41,8 @@ class ControllerExtension extends Extension
 
             $actions = FieldList::create(
                 FormAction::create('results', _t('Searchable.Go', 'Go'))
+                    ->setUseButtonTag(true)
+                    ->setTemplate('ilateral\SilverStripe\Searchable\Forms\SearchButton')
             );
 
             $template_class = Searchable::config()->template_class;
