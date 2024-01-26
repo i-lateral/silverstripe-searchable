@@ -2,10 +2,11 @@
 
 namespace ilateral\SilverStripe\Searchable\Extensions;
 
-use ilateral\SilverStripe\Searchable\Model\SearchTable;
-use ilateral\SilverStripe\Searchable\Searchable;
-use SilverStripe\Core\Config\Config;
+use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataExtension;
+use SilverStripe\Core\Config\Config;
+use ilateral\SilverStripe\Searchable\Searchable;
+use ilateral\SilverStripe\Searchable\Model\SearchTable;
 
 class SearchableObjectExtension extends DataExtension
 {
@@ -13,11 +14,16 @@ class SearchableObjectExtension extends DataExtension
         'SearchRecord' => SearchTable::class . '.BaseObject'
     ];
 
+    /**
+     * @return DataObject
+     */
+    public function getOwner()
+    {
+        return parent::getOwner();
+    }
+
     public function saveToSearchRecord()
     {
-        /**
- * @var \SilverStripe\ORM\DataObject 
-*/
         $owner = $this->getOwner();
         $ancestors = $owner->getClassAncestry();
         $search = $owner->SearchRecord();
@@ -53,9 +59,6 @@ class SearchableObjectExtension extends DataExtension
      */
     public function onAfterWrite()
     {
-        /**
- * @var \SilverStripe\ORM\DataObject 
-*/
         $owner = $this->getOwner();
 
         // If this is a versioned record, push to search after publish (not write)
@@ -75,9 +78,6 @@ class SearchableObjectExtension extends DataExtension
      */
     public function onAfterPublish()
     {
-        /**
- * @var \SilverStripe\ORM\DataObject 
-*/
         $owner = $this->getOwner();
 
         if ($owner->hasMethod('saveToSearchRecord')) {
@@ -86,12 +86,19 @@ class SearchableObjectExtension extends DataExtension
     }
 
     /**
-     * Delete the linked search record if this record is deleted
+     * Delete the linked search record if
+     * this record is deleted
      *
      * @return null
      */
     public function onAfterDelete()
     {
-        $this->getOwner()->SearchRecord()->delete();
+        $owner = $this->getOwner();
+        /** @var SearchTable */
+        $search = $owner->SearchRecord();
+
+        if ($search->exists()) {
+            $search->delete();
+        }
     }
 }
