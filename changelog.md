@@ -72,6 +72,8 @@ This document logs changes for the Carousel module
 
 * Use custom template for search button 
 
-## 3.0.4
+## 3.1.0
 
 * Ensure that `SearchObject` exists before trying to delete it
+* Display search info for objects that have zero results
+* Minor code tidy
