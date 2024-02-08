@@ -122,12 +122,12 @@ class Searchable extends ViewableData
 
         // Get a core results set from search table
         $search = SearchTable::get()
-        ->filter(
-            [
-               'SearchFields:Fulltext' => $keywords,
-               'BaseObjectClass' => $all_classes
+            ->filter(
+                [
+                'SearchFields:Fulltext' => $keywords,
+                'BaseObjectClass' => $all_classes
                 ]
-        );
+            );
 
         // If custom filters used, filter any relevent items in search 
         if (is_array($custom_filters) && array_key_exists($classname, $custom_filters) && is_array($custom_filters[$classname])) {

@@ -94,7 +94,9 @@ class SearchableObjectExtension extends DataExtension
     public function onAfterDelete()
     {
         $owner = $this->getOwner();
-        /** @var SearchTable */
+        /**
+ * @var SearchTable 
+*/
         $search = $owner->SearchRecord();
 
         if ($search->exists()) {
