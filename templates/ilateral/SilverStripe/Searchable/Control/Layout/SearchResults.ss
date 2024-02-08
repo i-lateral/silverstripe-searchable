@@ -11,15 +11,19 @@
 
             <div class="search-results-list {$ClassName} line">
                 <div class="unit size4of4">
-                    <% loop $Results %>
-                        <% include ilateral\SilverStripe\Searchable\SearchResultsSummary %>
-                    <% end_loop %>
+                    <% if $Results.exists %>
+                        <% loop $Results %>
+                            <% include ilateral\SilverStripe\Searchable\SearchResultsSummary %>
+                        <% end_loop %>
 
-                    <p>
-                        <a class="view-all-link btn btn-primary" href="{$Link}">
-                            <%t Searchable.ViewAll "View all results" %>
-                        </a>
-                    </p>
+                        <p>
+                            <a class="view-all-link btn btn-primary" href="{$Link}">
+                                <%t Searchable.ViewAll "View all results" %>
+                            </a>
+                        </p>
+                    <% else %>
+                        <p><%t Searchable.NoResults "Sorry, your search did not return any results." %></p>
+                    <% end_if %>
                 </div>
             </div>
 
