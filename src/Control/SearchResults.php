@@ -138,22 +138,20 @@ class SearchResults extends Controller
                 $limit
             );
 
-            if ($results->exists()) {
-                $objects_list->add(
-                    ArrayData::create(
-                        [
-                        "Title" => $classname::singleton()->i18n_plural_name(),
-                        "ClassName" => $classname,
-                        "Results" => $results,
-                        "Link" => Controller::join_links(
-                            $this->Link("object"),
-                            urlencode($classname),
-                            "?Search={$keywords}"
-                        )
-                        ]
+            $objects_list->add(
+                ArrayData::create(
+                    [
+                    "Title" => $classname::singleton()->i18n_plural_name(),
+                    "ClassName" => $classname,
+                    "Results" => $results,
+                    "Link" => Controller::join_links(
+                        $this->Link("object"),
+                        urlencode($classname),
+                        "?Search={$keywords}"
                     )
-                );
-            }
+                    ]
+                )
+            );
         }
 
         $this->customise(
