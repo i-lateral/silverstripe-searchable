@@ -9,6 +9,7 @@ use SilverStripe\Dev\Deprecation;
 use SilverStripe\View\ViewableData;
 use ilateral\SilverStripe\Searchable\Model\SearchTable;
 use ilateral\SilverStripe\Searchable\Control\SearchResults;
+use SilverStripe\Core\Convert;
 use SilverStripe\ORM\Filters\FulltextFilter;
 
 class Searchable extends ViewableData
@@ -106,6 +107,7 @@ class Searchable extends ViewableData
         $order = self::DEFAULT_ORDER
     ) {
         $custom_filters = Searchable::config()->custom_filters;
+        $keywords = self::cleanKeywords($keywords);
         $results = ArrayList::create();
         $all_classes = [$classname];
         $all_classes = array_merge(
@@ -113,7 +115,10 @@ class Searchable extends ViewableData
             ClassInfo::subclassesFor($classname)
         );
 
-        $search_filter = FulltextFilter::create('SearchFields', $keywords);
+        $search_filter = FulltextFilter::create(
+            'SearchFields',
+            $keywords
+        );
         $search_filter->setModel(SearchTable::class);
         $select = sprintf(
             "(MATCH (%s) AGAINST ('{$keywords}'))",
@@ -122,12 +127,10 @@ class Searchable extends ViewableData
 
         // Get a core results set from search table
         $search = SearchTable::get()
-            ->filter(
-                [
+            ->filter([
                 'SearchFields:Fulltext' => $keywords,
                 'BaseObjectClass' => $all_classes
-                ]
-            );
+            ]);
 
         // If custom filters used, filter any relevent items in search 
         if (is_array($custom_filters) && array_key_exists($classname, $custom_filters) && is_array($custom_filters[$classname])) {
@@ -140,6 +143,8 @@ class Searchable extends ViewableData
             }
         }
 
+        // Update search query so that custom sort by relevence
+        // can be applied
         $search = $search->alterDataQuery(
             function (DataQuery $query) use ($select, $sort, $order) {
                 $query->selectField($select, self::DEFAULT_SORT);
@@ -166,6 +171,11 @@ class Searchable extends ViewableData
         }
 
         return $results->removeDuplicates();
+    }
+
+    protected static function cleanKeywords(string $keywords): string
+    {
+        return Convert::raw2sql($keywords);
     }
 
     /**

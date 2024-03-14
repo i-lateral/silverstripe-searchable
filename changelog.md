@@ -77,3 +77,7 @@ This document logs changes for the Carousel module
 * Ensure that `SearchObject` exists before trying to delete it
 * Display search info for objects that have zero results
 * Minor code tidy
+
+## 3.1.1
+
+* Add sanitisation to relevence select keywords
