@@ -9,7 +9,18 @@ it to:
 
     [silverstripe-root]/searchable
 
-Finally run (either via the browser or command line):
+Next, before running a `dev/build`, you will need to add at least some
+basic config to tell Searchable what to index. More details can be found
+via the [configuration](./configuration.md) docs, but a basic example
+would be:
+
+    DFT\SilverStripe\Searchable\Searchable:
+      objects:
+        "Page": ["Title","MenuTitle","Content","URLSegment"]
+
+This will then add the object to Searchable's searchable classes.
+
+Finally re-build the database, either via the browser or command line:
 
     dev/build flush=1
 
