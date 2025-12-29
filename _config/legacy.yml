@@ -1,0 +1,6 @@
+---
+Name: searchablelegacy
+---
+SilverStripe\ORM\DatabaseAdmin:
+  classname_value_remapping:
+    ilateral\SilverStripe\Searchable\Model\SearchTable: DFT\SilverStripe\Searchable\Model\SearchTable

@@ -1,10 +1,10 @@
 <?php
 
-namespace ilateral\SilverStripe\Searchable\Middleware;
+namespace DFT\SilverStripe\Searchable\Middleware;
 
-use ilateral\SilverStripe\Searchable\Extensions\SearchableObjectExtension;
-use ilateral\SilverStripe\Searchable\Model\SearchTable;
-use ilateral\SilverStripe\Searchable\Searchable;
+use DFT\SilverStripe\Searchable\Extensions\SearchableObjectExtension;
+use DFT\SilverStripe\Searchable\Model\SearchTable;
+use DFT\SilverStripe\Searchable\Searchable;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\Middleware\HTTPMiddleware;
 use SilverStripe\Core\Config\Config;

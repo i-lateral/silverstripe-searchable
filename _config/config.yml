@@ -3,4 +3,4 @@ Name: searchableconfig
 ---
 SilverStripe\Control\Controller:
   extensions:
-    - ilateral\SilverStripe\Searchable\Extensions\ControllerExtension
+    - DFT\SilverStripe\Searchable\Extensions\ControllerExtension

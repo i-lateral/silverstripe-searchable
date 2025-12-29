@@ -1,11 +1,11 @@
 <?php
 
-namespace ilateral\SilverStripe\Searchable\Model;
+namespace DFT\SilverStripe\Searchable\Model;
 
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Injector\Injector;
-use ilateral\SilverStripe\Searchable\Tasks\ImportSearchDataTask;
+use DFT\SilverStripe\Searchable\Tasks\ImportSearchDataTask;
 
 /**
  * Base table to store searchable data in

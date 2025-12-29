@@ -6,8 +6,8 @@ any feedback that usera may have.
 If you encounter any issues, have any ideas or want to request a feature, please
 use the following links:
 
- * [Sharing your opinion and raising issues](https://github.com/i-lateral/silverstripe-searchable/issues)
- * [Submit a pull request](https://github.com/i-lateral/silverstripe-searchable/pulls)
+ * [Sharing your opinion and raising issues](https://github.com/Dean-Forest-Tech/silverstripe-searchable/issues)
+ * [Submit a pull request](https://github.com/Dean-Forest-Tech/silverstripe-searchable/pulls)
 
 ## Translations
 

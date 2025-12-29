@@ -1,9 +1,9 @@
 <?php
 
-namespace ilateral\SilverStripe\Searchable\Tasks;
+namespace DFT\SilverStripe\Searchable\Tasks;
 
-use ilateral\SilverStripe\Searchable\Model\SearchTable;
-use ilateral\SilverStripe\Searchable\Searchable;
+use DFT\SilverStripe\Searchable\Model\SearchTable;
+use DFT\SilverStripe\Searchable\Searchable;
 use SilverStripe\ORM\DB;
 use SilverStripe\Dev\BuildTask;
 use SilverStripe\Control\Director;

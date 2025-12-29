@@ -1,14 +1,14 @@
 <?php
 
-namespace ilateral\SilverStripe\Searchable;
+namespace DFT\SilverStripe\Searchable;
 
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataQuery;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Dev\Deprecation;
 use SilverStripe\View\ViewableData;
-use ilateral\SilverStripe\Searchable\Model\SearchTable;
-use ilateral\SilverStripe\Searchable\Control\SearchResults;
+use DFT\SilverStripe\Searchable\Model\SearchTable;
+use DFT\SilverStripe\Searchable\Control\SearchResults;
 use SilverStripe\Core\Convert;
 use SilverStripe\ORM\Filters\FulltextFilter;
 

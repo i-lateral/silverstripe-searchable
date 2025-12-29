@@ -4,4 +4,4 @@ After: framework/routes#rootroutes
 ---
 SilverStripe\Control\Director:
   rules:
-    'results//$Action/$ID': 'ilateral\SilverStripe\Searchable\Control\SearchResults'
+    'results//$Action/$ID': 'DFT\SilverStripe\Searchable\Control\SearchResults'

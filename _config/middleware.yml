@@ -7,4 +7,4 @@ SilverStripe\Core\Injector\Injector:
   SilverStripe\Control\Director:
     properties:
       Middlewares:
-        SearchableMiddleware: '%$ilateral\SilverStripe\Searchable\Middleware\SearchableMiddleware'
+        SearchableMiddleware: '%$DFT\SilverStripe\Searchable\Middleware\SearchableMiddleware'

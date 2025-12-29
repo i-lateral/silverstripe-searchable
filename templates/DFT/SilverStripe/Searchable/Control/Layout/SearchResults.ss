@@ -13,7 +13,7 @@
                 <div class="unit size4of4">
                     <% if $Results.exists %>
                         <% loop $Results %>
-                            <% include ilateral\SilverStripe\Searchable\SearchResultsSummary %>
+                            <% include DFT\SilverStripe\Searchable\SearchResultsSummary %>
                         <% end_loop %>
 
                         <p>

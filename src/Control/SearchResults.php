@@ -1,6 +1,6 @@
 <?php
 
-namespace ilateral\SilverStripe\Searchable\Control;
+namespace DFT\SilverStripe\Searchable\Control;
 
 use SilverStripe\i18n\i18n;
 use SilverStripe\ORM\ArrayList;
@@ -10,7 +10,7 @@ use SilverStripe\Control\Director;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\Control\Controller;
 use SilverStripe\Subsites\Model\Subsite;
-use ilateral\SilverStripe\Searchable\Searchable;
+use DFT\SilverStripe\Searchable\Searchable;
 use SilverStripe\CMS\Controllers\ContentController;
 
 /**

@@ -1,12 +1,12 @@
 <?php
 
-namespace ilateral\SilverStripe\Searchable\Extensions;
+namespace DFT\SilverStripe\Searchable\Extensions;
 
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DataExtension;
 use SilverStripe\Core\Config\Config;
-use ilateral\SilverStripe\Searchable\Searchable;
-use ilateral\SilverStripe\Searchable\Model\SearchTable;
+use DFT\SilverStripe\Searchable\Searchable;
+use DFT\SilverStripe\Searchable\Model\SearchTable;
 
 class SearchableObjectExtension extends DataExtension
 {

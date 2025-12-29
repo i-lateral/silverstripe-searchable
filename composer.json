@@ -1,8 +1,8 @@
 {
-  "name": "i-lateral/silverstripe-searchable",
+  "name": "dft/silverstripe-searchable",
   "description": "Updated search module for Silverstripe allowing addition of different data objects and makes use of the FulllTextFilter",
     "type": "silverstripe-vendormodule",
-    "homepage": "http://github.com/i-lateral/silverstripe-searchable",
+    "homepage": "http://github.com/dft/silverstripe-searchable",
     "keywords": [
         "silverstripe",
         "search",
@@ -12,19 +12,19 @@
     "license": "BSD-3-Clause",
     "authors": [
         {
-            "name": "Mo",
-            "email": "morven@ilateral.co.uk"
+            "name": "DFT",
+            "homepage": "http://github.com/Dean-Forest-Tech/silverstripe-searchable"
         }
     ],
     "support": {
-        "issues": "http://github.com/i-lateral/silverstripe-searchable/issues"
+        "issues": "http://github.com/dft/silverstripe-searchable/issues"
     },
     "require": {
         "silverstripe/framework": "^4 || ^5"
     },
     "autoload": {
         "psr-4": {
-            "ilateral\\SilverStripe\\Searchable\\": "src/"
+            "DFT\\SilverStripe\\Searchable\\": "src/"
         }
     }
 }

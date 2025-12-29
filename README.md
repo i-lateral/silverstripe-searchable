@@ -8,6 +8,6 @@ objects.
 
 To get started quickly, install via composer:
 
-    composer require i-lateral/silverstripe-searchable
+    composer require dft/silverstripe-searchable
 
 For full documentation [check out the docs](docs/en/index.md)

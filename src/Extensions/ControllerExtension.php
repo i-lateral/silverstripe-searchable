@@ -1,6 +1,6 @@
 <?php
 
-namespace ilateral\SilverStripe\Searchable\Extensions;
+namespace DFT\SilverStripe\Searchable\Extensions;
 
 use SilverStripe\Core\Extension;
 use SilverStripe\Core\Injector\Injector;
@@ -8,7 +8,7 @@ use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Forms\FormAction;
-use ilateral\SilverStripe\Searchable\Searchable;
+use DFT\SilverStripe\Searchable\Searchable;
 
 /**
  * Add SearchForm to controllers
@@ -42,7 +42,7 @@ class ControllerExtension extends Extension
             $actions = FieldList::create(
                 FormAction::create('results', _t('Searchable.Go', 'Go'))
                     ->setUseButtonTag(true)
-                    ->setTemplate('ilateral\SilverStripe\Searchable\Forms\SearchButton')
+                    ->setTemplate('DFT\SilverStripe\Searchable\Forms\SearchButton')
             );
 
             $template_class = Searchable::config()->template_class;
@@ -55,7 +55,7 @@ class ControllerExtension extends Extension
                 $actions
             )->setFormMethod('get')
             ->setFormAction($results_page->Link())
-            ->setTemplate('ilateral\SilverStripe\Searchable\Includes\SearchForm')
+            ->setTemplate('DFT\SilverStripe\Searchable\Includes\SearchForm')
             ->disableSecurityToken();
 
             $this->owner->extend("updateSearchForm", $form);

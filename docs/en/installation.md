@@ -2,7 +2,7 @@
 
 You can install this module either via composer or manually. Via composer:
 
-    composer require i-lateral/silverstripe-searchable
+    composer require DFT/silverstripe-searchable
 
 Alternativley install this module either by downloading and adding
 it to:
