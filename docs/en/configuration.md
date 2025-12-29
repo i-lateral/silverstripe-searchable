@@ -24,6 +24,14 @@ thing to do is add the following function to your dataobject:
         return true;
     }
 
+## Dashboard Limit
+
+By default, only 5 results are shown on the "dashboard results" page. This
+can be changed via the following config variable:
+
+    DFT\SilverStripe\Searchable\Searchable:
+      dashboard_items: 8
+
 ## Custom Filters
 
 If you want to specify custom filters that can be associated with
